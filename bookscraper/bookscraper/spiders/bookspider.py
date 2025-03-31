@@ -4,15 +4,7 @@ from urllib.parse import urljoin
 import scrapy
 from scrapy.http import Response
 
-
-class BookItem(scrapy.Item):
-    title = scrapy.Field()
-    price = scrapy.Field()
-    amount_in_stock = scrapy.Field()
-    rating = scrapy.Field()
-    category = scrapy.Field()
-    description = scrapy.Field()
-    upc = scrapy.Field()
+from ..items import BookscraperItem
 
 
 class BookspiderSpider(scrapy.Spider):
@@ -45,8 +37,8 @@ class BookspiderSpider(scrapy.Spider):
     def parse_book(
             self,
             response: Response
-    ) -> Generator[BookItem, None, None]:
-        book = BookItem()
+    ) -> Generator[BookscraperItem, None, None]:
+        book = BookscraperItem()
 
         book["title"] = response.css("div.product_main h1::text").get().strip()
         book["price"] = response.css("p.price_color::text").get().strip()
